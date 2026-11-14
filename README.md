@@ -38,7 +38,7 @@ In the Horizon launcher: Mods, find **First Person Body**, Install, then **Build
 
 ## Compatibility
 
-Applied and compile-checked on Horizon Nightly `fdc87ae` (2026-11-08) with horizon-mixins `5a64af9`, also together
+Applied and compile-checked on Horizon Nightly `9f42064` (2026-11-13) with horizon-mixins `5a64af9`, also together
 with Living Camera and Map Preview.
 
 Horizon has no hook point for drawing your own player in first person, so besides hook points this mod hooks the
@@ -50,7 +50,7 @@ game's own rendering functions. A later Horizon that changes them needs an updat
 | HEAD + RETURN | `game/perspective.rs` `player_model_geometry` | marks while your own model is drawn |
 | OVERWRITE | `mobs/anim.rs` `player_model_visibility` | the game's visibility, plus the head (and arms) hidden |
 | RETURN | `mobs/render.rs` `base_transform` | the body a little behind the camera |
-| HEAD (cancellable) | `game/mob_blocks.rs` `held_item_geometry`, `head_item_geometry`; `game/perspective.rs` `player_ears_geometry`; `game/cosmetics.rs` `cosmetics_geometry` | no items, head items, ears or cosmetics at the camera |
+| HEAD (cancellable) | `game/mob_blocks.rs` `held_item_geometry`, `head_item_geometry`; `game/perspective.rs` `player_ears_geometry`; `game/player_hooks.rs` `own_layers_geometry` | no items, head items, ears or cosmetics at the camera |
 | HEAD | `native_render_hand` (hook point) | no vanilla hand with model arms |
 
 Everything below `player_model_geometry` acts only while your own first-person model is drawn: other players and

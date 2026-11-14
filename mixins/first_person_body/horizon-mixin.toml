@@ -1,14 +1,14 @@
 [mod]
 id = "first_person_body"
-version = "1.0.0"
+version = "1.0.1"
 priority = 100
 
-# The Horizon commit it was written and checked against (Nightly 2026-11-08).
+# The Horizon commit it was written and checked against (Nightly 2026-11-13).
 # Besides hook points it hooks the game's own rendering functions
 # (perspective.rs, mobs/anim.rs, mobs/render.rs, mob_blocks.rs,
-# cosmetics.rs), which a later Horizon may change.
+# player_hooks.rs), which a later Horizon may change.
 [compatibility]
-horizon_revision = "fdc87aecdbd116bf1e08adcd062fcbaea8c2e2ca"
+horizon_revision = "9f42064c11efe7ef3e5ed2baad7ddc2a3b36eea0"
 
 # In `mobs`, which both the game crate and horizon-client-lib (where the
 # model is drawn) reach: `horizon_client::mobs::first_person_body`.
@@ -101,7 +101,7 @@ bindings = []
 id = "skip_cosmetics"
 kind = "HEAD"
 cancellable = true
-target = "horizon_client::game::cosmetics::Game<'_>::cosmetics_geometry"
+target = "horizon_client::game::player_hooks::Game<'_>::own_layers_geometry"
 helper = "skip_cosmetics.rs"
 bindings = []
 
