@@ -1,11 +1,12 @@
 [package]
-name = "horizon-mod-first-person-body"
-version = "1.0.1"
+name = "mod-first-person-body"
+version = "2.0.0"
 edition = "2024"
 license = "MIT"
 publish = false
-description = "First Person Body for Horizon, a native mod: see your own body in first person."
+description = "First Person Body for Horizon: see your own body in first person."
 
-# The mod's logic and its tests: the same file the bundle adds to the game.
-[lib]
-path = "mixins/first_person_body/runtime.rs"
+[dependencies]
+# The pinned SDK's API crate, fetched into .horizon/sdk/ by any `cargo horizon-mod` command (the
+# launcher builds against its own copy of the same build).
+horizon-mod-api = { path = ".horizon/sdk/api/crates/horizon-mod-api" }

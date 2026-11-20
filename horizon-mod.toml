@@ -1,0 +1,90 @@
+id = "first_person_body"
+name = "First Person Body"
+version = "2.0.0"
+description = "See your own body in first person: look down to see your legs and feet."
+authors = ["selfmonoraque5"]
+license = "MIT"
+license_url = "https://github.com/selfmonoraque5/first-person-body/blob/main/LICENSE"
+credits = "Inspired by tr7zw's First-person Model; none of its code."
+homepage = "https://github.com/selfmonoraque5/first-person-body"
+issues = "https://github.com/selfmonoraque5/first-person-body/issues"
+api = "0.2"
+side = "client"
+capabilities = ["registries"]
+
+[native]
+game = "26.3"
+horizon = "f00125f61f794aaa3d4e950d301f353b35b6ee3d"
+mixins = "e59da9094f0c2fdda6c627fe9eff22dec6a906f0"
+
+# Horizon has no hook for drawing your own player in first person, so the mod
+# patches the game's own functions (perspective.rs, game.rs, mob_blocks.rs,
+# player_hooks.rs); a later Horizon that changes them needs an update.
+
+# Whether the own body is drawn: also in first person.
+[[native.mixin]]
+id = "in_view"
+kind = "RETURN"
+target = "horizon_client::game::perspective::Game<'_>::own_body_in_view"
+helper = "src/mixins/in_view.rs"
+bindings = [
+  { name = "game", ty = "&Game<'_>", value = "self" },
+  { name = "value", ty = "bool", value = "$value" },
+]
+
+# While the own model is drawn in first person, with where the body stands.
+# The body stands a little behind the view: when the model is done, its
+# vertices (camera-relative, from the vertex count at the start) move back by
+# the offset, as if drawn from a camera moved forward. This covers the model,
+# its layers and the mods' drawing on it in one place; horizon-mixins refuses
+# rows on the drawing calls themselves (one takes `&self.player_armor_layers()`).
+[[native.mixin]]
+id = "begin"
+kind = "HEAD"
+target = "horizon_client::game::perspective::Game<'_>::player_model_geometry"
+helper = "src/mixins/begin.rs"
+bindings = [
+  { name = "game", ty = "&Game<'_>", value = "self" },
+  { name = "out", ty = "&Vec<horizon_client_render::render_geometry::Vertex>", value = "&*out" },
+]
+
+[[native.mixin]]
+id = "end"
+kind = "RETURN"
+target = "horizon_client::game::perspective::Game<'_>::player_model_geometry"
+helper = "src/mixins/end.rs"
+# `value` first: the function's last statement reads `out`, so it runs
+# before the helper borrows `out` mutably.
+bindings = [
+  { name = "value", ty = "()", value = "$value" },
+  { name = "out", ty = "&mut Vec<horizon_client_render::render_geometry::Vertex>", value = "&mut *out" },
+]
+
+# What would sit at the camera, or double the vanilla hand.
+[[native.mixin]]
+id = "skip_held"
+kind = "HEAD"
+cancellable = true
+target = "horizon_client::game::mob_blocks::Game<'_>::held_item_geometry"
+helper = "src/mixins/skip_held.rs"
+
+[[native.mixin]]
+id = "skip_head_item"
+kind = "HEAD"
+cancellable = true
+target = "horizon_client::game::mob_blocks::Game<'_>::head_item_geometry"
+helper = "src/mixins/skip_at_camera.rs"
+
+[[native.mixin]]
+id = "skip_ears"
+kind = "HEAD"
+cancellable = true
+target = "horizon_client::game::perspective::Game<'_>::player_ears_geometry"
+helper = "src/mixins/skip_at_camera.rs"
+
+[[native.mixin]]
+id = "skip_cosmetics"
+kind = "HEAD"
+cancellable = true
+target = "horizon_client::game::player_hooks::Game<'_>::own_layers_geometry"
+helper = "src/mixins/skip_at_camera.rs"

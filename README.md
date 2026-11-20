@@ -1,6 +1,6 @@
 <p align="center"><img src="icon.png" width="128" alt="First Person Body icon"></p>
 
-# First Person Body (Horizon native mod)
+# First Person Body (Horizon mod)
 
 See your own body in first person. Look down and your torso, legs and feet are there, moving as you walk, crouch and
 fight, instead of the floating hand alone.
@@ -18,7 +18,7 @@ Client side only: it works in single player and on any server.
 
 ## Settings
 
-Options > Mods > First Person Body > Settings. Each button steps through its values.
+Options > Mods > First Person Body > **Config**. Each button steps through its values.
 
 | Setting | Values | Default |
 |---|---|---|
@@ -27,37 +27,52 @@ Options > Mods > First Person Body > Settings. Each button steps through its val
 | Body offset | None, Small, Normal, Large | Normal |
 | While riding | OFF, ON | ON |
 | Lean back looking down | OFF, ON | ON |
-| Reset to defaults | | |
 
-A **Toggle First Person Body** key turns it on and off in game; it starts unbound, set it in Options > Mods.
+A **Toggle First Person Body** key turns it on and off in game; it starts unbound, set it in Options > Controls.
+
+First Person Body 2.0 is made for Horizon's mod API, so its settings start from the defaults again once: the 1.x
+settings files aren't read.
 
 ## Install
 
-In the Horizon launcher: Mods, find **First Person Body**, Install, then **Build**. To try a local copy, put the
-`.hnmod` in your instance's `horizon-native-mods/` folder and Build.
+Made for Horizon **Nightly 2026-11-19 · f00125f**.
+It patches the game, so it builds only on that exact Horizon build: if the launcher lists it as
+**Left out**, switch your instance to that Nightly, or wait for the version made for yours.
+
+From GitHub:
+
+1. Download `first_person_body-2.0.0.hmod` from the [latest release](https://github.com/selfmonoraque5/first-person-body/releases/latest).
+2. Put it in the `horizon-native-mods` folder of your game folder, not in `mods`. On Windows that is
+   `%APPDATA%\horizon\horizon-native-mods`.
+3. In the launcher, open the Mods page and click **Build** (the first build downloads the mod SDK and takes a few
+   minutes). After a build the launcher can look stuck for a while as it cleans its cache: let it finish.
+4. When it says **Up to date**, play.
+
+Once it is listed in the Horizon registry: Mods, find **First Person Body**, Install.
+
+To build a local copy: `horizon-launcher native-build <this folder> --instance <instance> --trust-native-code`.
 
 ## Compatibility
 
-Applied and compile-checked on Horizon Nightly `9f42064` (2026-11-13) with horizon-mixins `5a64af9`, also together
-with Living Camera and Map Preview.
+Horizon has no hook for drawing your own player in first person, so besides the mod API's hooks this mod patches the
+game's own functions (`[[native.mixin]]` in `horizon-mod.toml`). It works on the Horizon build it is made for; a later
+Horizon that changes these functions needs an update of this mod:
 
-Horizon has no hook point for drawing your own player in first person, so besides hook points this mod hooks the
-game's own rendering functions. A later Horizon that changes them needs an update of this mod:
-
-| Hook | Where | What |
+| Patch | Where | What |
 |---|---|---|
-| RETURN | `game/perspective.rs` `own_body_in_view` | the body is drawn in first person too |
-| HEAD + RETURN | `game/perspective.rs` `player_model_geometry` | marks while your own model is drawn |
-| OVERWRITE | `mobs/anim.rs` `player_model_visibility` | the game's visibility, plus the head (and arms) hidden |
-| RETURN | `mobs/render.rs` `base_transform` | the body a little behind the camera |
-| HEAD (cancellable) | `game/mob_blocks.rs` `held_item_geometry`, `head_item_geometry`; `game/perspective.rs` `player_ears_geometry`; `game/player_hooks.rs` `own_layers_geometry` | no items, head items, ears or cosmetics at the camera |
-| HEAD | `native_render_hand` (hook point) | no vanilla hand with model arms |
+| RETURN | `game/interface/perspective.rs` `own_body_in_view` | the body is drawn in first person too |
+| HEAD + RETURN | `game/interface/perspective.rs` `player_model_geometry` | marks while your own model is drawn; at the end, moves its vertices so the body stands a little behind the camera |
+| HEAD (cancellable) | `game/mobs/mob_blocks.rs` `held_item_geometry`, `head_item_geometry`; `game/interface/perspective.rs` `player_ears_geometry`; `game/interface/player_hooks.rs` `own_layers_geometry` | no items, head items, ears or cosmetics at the camera |
 
-Everything below `player_model_geometry` acts only while your own first-person model is drawn: other players and
-mobs are untouched. The mod has no network, file or process access beyond Horizon's own settings files for the mod.
+And the mod API's hooks: `render_player_pre` hides the head (and the arms with the vanilla hand), `render_hand` and
+`render_arm` leave out the vanilla hand with the model's arms, `register`, `setting_changed` and `client_tick_post`
+keep the settings and the toggle key.
+
+Everything acts only while your own first-person model is drawn: other players and mobs are untouched. The mod has no
+network, file or process access beyond Horizon's own settings for the mod.
 
 ```sh
-cargo test    # settings, the body offset and the hidden parts
+cargo test    # settings, the body offset and when the body shows
 ```
 
 ## Credits

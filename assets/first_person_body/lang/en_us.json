@@ -1,0 +1,20 @@
+{
+  "first_person_body.option.enabled": "First Person Body",
+  "first_person_body.option.enabled.0": "OFF",
+  "first_person_body.option.enabled.1": "ON",
+  "first_person_body.option.arms": "Arms",
+  "first_person_body.option.arms.0": "Vanilla hand",
+  "first_person_body.option.arms.1": "Model arms",
+  "first_person_body.option.offset": "Body offset",
+  "first_person_body.option.offset.0": "None",
+  "first_person_body.option.offset.15": "Small",
+  "first_person_body.option.offset.25": "Normal",
+  "first_person_body.option.offset.35": "Large",
+  "first_person_body.option.riding": "While riding",
+  "first_person_body.option.riding.0": "OFF",
+  "first_person_body.option.riding.1": "ON",
+  "first_person_body.option.look_down": "Lean back looking down",
+  "first_person_body.option.look_down.0": "OFF",
+  "first_person_body.option.look_down.1": "ON",
+  "first_person_body.key.toggle": "Toggle First Person Body"
+}
