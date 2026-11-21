@@ -35,13 +35,13 @@ settings files aren't read.
 
 ## Install
 
-Made for Horizon **Nightly 2026-11-21 · 8f83e5c**.
+Made for Horizon **Nightly 2026-11-21 · f037744**.
 It patches the game, so it builds only on that exact Horizon build: if the launcher lists it as
 **Left out**, switch your instance to that Nightly, or wait for the version made for yours.
 
 From GitHub:
 
-1. Download `first_person_body-2.0.2.hmod` from the [latest release](https://github.com/selfmonoraque5/first-person-body/releases/latest).
+1. Download `first_person_body-2.0.3.hmod` from the [latest release](https://github.com/selfmonoraque5/first-person-body/releases/latest).
 2. Put it in the `horizon-native-mods` folder of your game folder, not in `mods`. On Windows that is
    `%APPDATA%\horizon\horizon-native-mods`.
 3. In the launcher, open the Mods page and click **Build** (the first build downloads the mod SDK and takes a few
@@ -67,6 +67,10 @@ Horizon that changes these functions needs an update of this mod:
 And the mod API's hooks: `render_player_pre` hides the head (and the arms with the vanilla hand), `render_hand` and
 `render_arm` leave out the vanilla hand with the model's arms, `register`, `setting_changed` and `client_tick_post`
 keep the settings and the toggle key.
+
+Because the game treats your body as "in view" while it shows, two other things follow it, as in third person: your
+body burns with visible flames when you're on fire, and other mods' first-person-only extras around your player are
+left out. Shadows are unchanged.
 
 Everything acts only while your own first-person model is drawn: other players and mobs are untouched. The mod has no
 network, file or process access beyond Horizon's own settings for the mod.
