@@ -5,6 +5,8 @@
 See your own body in first person. Look down and your torso, legs and feet are there, moving as you walk, crouch and
 fight, instead of the floating hand alone.
 
+<p align="center"><img src="screenshots/walking.jpg" width="49%" alt="Your leg mid-step, looking down"> <img src="screenshots/armour.jpg" width="49%" alt="Your diamond chestplate in first person"></p>
+
 Client side only: it works in single player and on any server.
 
 ## What it does
@@ -35,7 +37,7 @@ settings files aren't read.
 
 ## Install
 
-Made for Horizon **Nightly 2026-11-21 · f037744**.
+Made for Horizon **Nightly 2026-11-22 · 2b77287**.
 It patches the game, so it builds only on that exact Horizon build: if the launcher lists it as
 **Left out**, switch your instance to that Nightly, or wait for the version made for yours.
 
