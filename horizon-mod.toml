@@ -1,6 +1,6 @@
 id = "first_person_body"
 name = "First Person Body"
-version = "2.0.4"
+version = "2.0.5"
 description = "See your own body in first person: look down to see your legs and feet."
 authors = ["selfmonoraque5"]
 license = "MIT"
@@ -14,7 +14,7 @@ capabilities = ["registries"]
 
 [native]
 game = "26.3"
-horizon = "2b77287de099c9316278ba7ac4d83590fdb7ef30"
+horizon = "f1bb66f353cf67f2aa4665293fc75c8d91186fc7"
 mixins = "e59da9094f0c2fdda6c627fe9eff22dec6a906f0"
 
 # Horizon has no hook for drawing your own player in first person, so the mod
