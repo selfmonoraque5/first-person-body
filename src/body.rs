@@ -36,13 +36,15 @@ const ON_OFF: &[(u8, &str)] = &[(0, "OFF"), (1, "ON")];
 const ARMS: &[(u8, &str)] = &[(0, "Vanilla hand"), (1, "Model arms")];
 /// How far back the body stands, in hundredths of a block.
 const OFFSET: &[(u8, &str)] = &[(0, "None"), (15, "Small"), (25, "Normal"), (35, "Large")];
+const SHOWN_HIDDEN: &[(u8, &str)] = &[(0, "Hidden"), (1, "Shown")];
 
-pub const OPTS: [Opt; 5] = [
+pub const OPTS: [Opt; 6] = [
     Opt { key: "enabled", label: "First Person Body", choices: ON_OFF, default: 1 },
     Opt { key: "arms", label: "Arms", choices: ARMS, default: 0 },
     Opt { key: "offset", label: "Body offset", choices: OFFSET, default: 25 },
     Opt { key: "riding", label: "While riding", choices: ON_OFF, default: 1 },
     Opt { key: "look_down", label: "Lean back looking down", choices: ON_OFF, default: 1 },
+    Opt { key: "helmet", label: "Helmet in first person", choices: SHOWN_HIDDEN, default: 0 },
 ];
 
 /// Indexes into `OPTS`.
@@ -52,6 +54,7 @@ pub mod o {
     pub const OFFSET: usize = 2;
     pub const RIDING: usize = 3;
     pub const LOOK_DOWN: usize = 4;
+    pub const HELMET: usize = 5;
 }
 
 /// The settings.
@@ -226,6 +229,12 @@ pub fn moved(pos: [f32; 3], offset: [f32; 3]) -> [f32; 3] {
 /// Whether the model's arms hide (the vanilla hand draws instead).
 pub fn arms_hidden(settings: &Settings) -> bool {
     settings.get(o::ARMS) == 0
+}
+
+/// Whether the worn helmet is left out of the own first-person model: it sits around the
+/// camera, so the view's sway and bob (Living Camera's too) show its edges.
+pub fn helmet_hidden(settings: &Settings) -> bool {
+    settings.get(o::HELMET) == 0
 }
 
 #[cfg(test)]

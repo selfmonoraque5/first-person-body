@@ -16,5 +16,8 @@
   "first_person_body.option.look_down": "Lean back looking down",
   "first_person_body.option.look_down.0": "OFF",
   "first_person_body.option.look_down.1": "ON",
-  "first_person_body.key.toggle": "Toggle First Person Body"
+  "first_person_body.key.toggle": "Toggle First Person Body",
+  "first_person_body.option.helmet": "Helmet in first person",
+  "first_person_body.option.helmet.0": "Hidden",
+  "first_person_body.option.helmet.1": "Shown"
 }

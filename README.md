@@ -29,6 +29,10 @@ Options > Mods > First Person Body > **Config**. Each button steps through its v
 | Body offset | None, Small, Normal, Large | Normal |
 | While riding | OFF, ON | ON |
 | Lean back looking down | OFF, ON | ON |
+| Helmet in first person | Hidden, Shown | Hidden |
+
+A worn helmet sits around the camera, so it is hidden from your own first-person body by default; the rest of
+your armour shows, and third person and the inventory keep the helmet.
 
 A **Toggle First Person Body** key turns it on and off in game; it starts unbound, set it in Options > Controls.
 
@@ -43,7 +47,7 @@ It patches the game, so it builds only on that exact Horizon build: if the launc
 
 From GitHub:
 
-1. Download `first_person_body-2.0.3.hmod` from the [latest release](https://github.com/selfmonoraque5/first-person-body/releases/latest).
+1. Download the `first_person_body-….hmod` file from the [latest release](https://github.com/selfmonoraque5/first-person-body/releases/latest).
 2. Put it in the `horizon-native-mods` folder of your game folder, not in `mods`. On Windows that is
    `%APPDATA%\horizon\horizon-native-mods`.
 3. In the launcher, open the Mods page and click **Build** (the first build downloads the mod SDK and takes a few
@@ -65,6 +69,7 @@ Horizon that changes these functions needs an update of this mod:
 | RETURN | `game/interface/perspective.rs` `own_body_in_view` | the body is drawn in first person too |
 | HEAD + RETURN | `game/interface/perspective.rs` `player_model_geometry` | marks while your own model is drawn; at the end, moves its vertices so the body stands a little behind the camera |
 | HEAD (cancellable) | `game/mobs/mob_blocks.rs` `held_item_geometry`, `head_item_geometry`; `game/interface/perspective.rs` `player_ears_geometry`; `game/interface/player_hooks.rs` `own_layers_geometry` | no items, head items, ears or cosmetics at the camera |
+| RETURN | `game/entities/armor_stands.rs` `player_armor_layers` | with **Helmet in first person: Hidden**, your own first-person body's armour layers that draw only on the head are left out |
 
 And the mod API's hooks: `render_player_pre` hides the head (and the arms with the vanilla hand), `render_hand` and
 `render_arm` leave out the vanilla hand with the model's arms, `register`, `setting_changed` and `client_tick_post`
